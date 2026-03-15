@@ -1,13 +1,35 @@
-/* Premium EatsBite Styling */
 :root {
-    --bg-dark: #0f1013;
-    --bg-darker: #17181f;
-    --text-primary: #ededed;
-    --text-muted: #a3a3a3;
+    /* Base Colors (Themed below) */
     --accent: #ff6b00;
     --accent-glow: rgba(255, 107, 0, 0.4);
     --nav-height: 80px;
+
+    /* Dark Mode Defaults */
+    --bg-main: #0f1013;
+    --bg-secondary: #17181f;
+    --bg-card: #1e1f26;
+    --text-primary: #ededed;
+    --text-muted: #a3a3a3;
     --border-subtle: rgba(255, 255, 255, 0.05);
+    --logo-bg: #000000;
+    --nav-bg: rgba(15, 16, 19, 0.85);
+    --toast-bg: #1e1f26;
+    --modal-bg: #0f1013;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg-main: #f5f5f7;
+        --bg-secondary: #ffffff;
+        --bg-card: #ffffff;
+        --text-primary: #1d1d1f;
+        --text-muted: #6e6e73;
+        --border-subtle: rgba(0, 0, 0, 0.1);
+        --logo-bg: #ffffff;
+        --nav-bg: rgba(255, 255, 255, 0.85);
+        --toast-bg: #ffffff;
+        --modal-bg: #ffffff;
+    }
 }
 
 * {
@@ -18,10 +40,11 @@
 
 body {
     font-family: 'Outfit', sans-serif;
-    background-color: var(--bg-dark);
+    background-color: var(--bg-main);
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3 {
@@ -89,7 +112,7 @@ a {
     position: fixed;
     top: 20px;
     right: 20px;
-    background: #1e1f26;
+    background: var(--toast-bg);
     color: var(--text-primary);
     padding: 16px 24px;
     border-radius: 8px;
@@ -110,7 +133,7 @@ a {
     align-items: center;
     padding: 0 5%;
     height: var(--nav-height);
-    background: rgba(15, 16, 19, 0.85);
+    background: var(--nav-bg);
     backdrop-filter: blur(12px);
     position: fixed;
     top: 0; width: 100%;
@@ -128,9 +151,14 @@ a {
 }
 
 .logo img {
-    height: 38px;
-    width: auto;
+    height: 40px;
+    width: 40px;
     object-fit: contain;
+    background-color: var(--logo-bg);
+    border-radius: 8px; /* makes it a slightly rounded square badge */
+    padding: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
 }
 
 .logo i {
@@ -242,11 +270,11 @@ a {
     position: absolute;
     top: calc(100% + 10px);
     right: 0;
-    background: #1e1f26;
+    background: var(--bg-card);
     border: 1px solid var(--border-subtle);
     border-radius: 12px;
     width: 200px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     overflow: hidden;
     z-index: 1000;
 }
@@ -391,7 +419,7 @@ a {
 
 .menu-section, .orders-section {
     padding: 100px 8%;
-    background: var(--bg-darker);
+    background: var(--bg-secondary);
 }
 
 .menu-grid {
@@ -402,7 +430,7 @@ a {
 
 /* Menu Card */
 .menu-card {
-    background: #1e1f26;
+    background: var(--bg-card);
     border-radius: 20px;
     padding: 30px;
     text-align: center;
@@ -540,12 +568,12 @@ a {
 }
 
 .modal {
-    background: var(--bg-dark);
+    background: var(--modal-bg);
     border-radius: 16px;
     padding: 30px;
     display: flex;
     flex-direction: column;
-    box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+    box-shadow: -10px 0 40px rgba(0,0,0,0.1);
 }
 
 .modal-header {
@@ -677,11 +705,10 @@ a {
 
 .input-group input {
     width: 100%;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border-subtle);
+    background: var(--border-subtle);
     padding: 15px 15px 15px 45px;
     border-radius: 12px;
-    color: white;
+    color: var(--text-primary);
     font-family: inherit;
     font-size: 1rem;
     transition: border-color 0.3s, box-shadow 0.3s;
@@ -713,7 +740,7 @@ a {
     margin: 0 auto;
 }
 .order-card {
-    background: #1e1f26;
+    background: var(--bg-card);
     border-radius: 16px;
     padding: 25px;
     margin-bottom: 20px;
@@ -756,7 +783,7 @@ a {
 .order-total {
     font-size: 1.2rem;
     font-weight: 700;
-    color: white;
+    color: var(--text-primary);
 }
 
 /* Delete Order Button */
@@ -842,7 +869,7 @@ a {
     to { opacity: 1; transform: translateY(0); }
 }
 .dashboard-card {
-    background: #1e1f26;
+    background: var(--bg-card);
     border-radius: 16px;
     padding: 30px;
     border: 1px solid var(--border-subtle);
@@ -856,7 +883,7 @@ a {
 
 /* Footer */
 footer {
-    background: #0a0b0d;
+    background: var(--bg-main);
     padding: 40px 5%;
     text-align: center;
     border-top: 1px solid var(--border-subtle);
