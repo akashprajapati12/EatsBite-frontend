@@ -194,7 +194,7 @@ a {
 
 .nav-links li a:hover,
 .nav-links li a.active {
-    color: white;
+    color: var(--text-primary);
 }
 
 .nav-links li a::after {
@@ -262,7 +262,7 @@ a {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    border: 2px solid var(--bg-dark);
+    border: 2px solid var(--bg-main);
 }
 
 /* User Profile in Nav */
@@ -318,7 +318,7 @@ a {
     padding: 12px 16px;
     background: transparent;
     border: none;
-    color: white;
+    color: var(--text-primary);
     font-size: 0.95rem;
     cursor: pointer;
     transition: background 0.3s, color 0.3s;
@@ -543,9 +543,9 @@ a {
 .add-btn {
     width: 45px; height: 45px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.05);
+    background: var(--border-subtle);
     border: 1px solid var(--border-subtle);
-    color: white;
+    color: var(--text-primary);
     cursor: pointer;
     font-size: 1.2rem;
     display: flex;
@@ -628,7 +628,7 @@ a {
     transition: color 0.3s;
 }
 .close-btn:hover {
-    color: white;
+    color: var(--text-primary);
 }
 
 .modal-body {
@@ -676,7 +676,7 @@ a {
 .qty-btn {
     background: transparent;
     border: none;
-    color: white;
+    color: var(--text-primary);
     cursor: pointer;
     font-size: 1.2rem;
 }
