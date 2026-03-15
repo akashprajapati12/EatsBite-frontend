@@ -52,9 +52,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     initTheme();
     updateAuthUI();
     
+    // 🚀 Start animations immediately so the site feels fast
+    renderFoodBackground(); 
+    
     // Check if on a page with menu before fetching
     if (document.getElementById('menuContainer')) {
-        await fetchMenu();
+        fetchMenu();
     }
     
     updateCartUI();
