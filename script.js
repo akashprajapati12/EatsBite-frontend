@@ -89,12 +89,22 @@ function showToast(message) {
 async function fetchMenu() {
     try {
         const response = await fetch(`${API_BASE}/menu`);
+        if (!response.ok) throw new Error('Backend error');
         menuData = await response.json();
-        renderMenu();
-        renderFoodBackground(); // 🍔 animate food images in hero bg
     } catch (error) {
         console.error('Failed to fetch menu:', error);
-        document.getElementById('menuContainer').innerHTML = '<p style="color:red; text-align:center;">Failed to load premium menu. Please check your connection.</p>';
+        const container = document.getElementById('menuContainer');
+        if (container) {
+            container.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px; background: rgba(255,0,0,0.05); border-radius: 20px; border: 1px solid rgba(255,0,0,0.2);">
+                    <p style="color:#ff6b6b; font-size: 1.1rem; margin-bottom: 10px;">Failed to load premium menu. Please check your connection.</p>
+                    <small style="color: var(--text-muted);">Error: ${error.message}</small>
+                </div>
+            `;
+        }
+    } finally {
+        renderMenu();
+        renderFoodBackground(); // 🍔 show animations even if menu fetch failed (with fallbacks)
     }
 }
 
@@ -128,16 +138,28 @@ function renderMenu() {
 // ============================================================
 function renderFoodBackground() {
     const canvas = document.getElementById('foodBgCanvas');
-    if (!canvas || !menuData.length) return;
+    if (!canvas) return;
     canvas.innerHTML = '';
 
+    // Fallback luxury food images if menuData is empty
+    const fallbackImages = [
+        'https://images.unsplash.com/photo-1568901346375-23c9450c58cd',
+        'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38',
+        'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5',
+        'https://images.unsplash.com/photo-1512621776951-a57141f2eefd',
+        'https://images.unsplash.com/photo-1504674900247-0877df9cc836',
+        'https://images.unsplash.com/photo-1543353301-8e400147ae33'
+    ].map(url => `${url}?auto=format&fit=crop&w=600&q=80`);
+
+    const imagesToUse = menuData.length ? menuData.map(i => i.image) : fallbackImages;
+    
     const rand = (min, max) => Math.random() * (max - min) + min;
     const randInt = (min, max) => Math.floor(rand(min, max));
     const randPx = (min, max) => `${rand(min, max).toFixed(1)}px`;
     const sign = () => (Math.random() > 0.5 ? 1 : -1);
 
-    // Use each image up to 2× to fill the background richly
-    const images = [...menuData, ...menuData].map(i => i.image);
+    // Fill background with enough orbs
+    const images = imagesToUse.length < 8 ? [...imagesToUse, ...imagesToUse, ...imagesToUse] : [...imagesToUse, ...imagesToUse];
 
     images.forEach((src, idx) => {
         const size = randInt(90, 200);           // orb diameter px
