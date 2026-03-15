@@ -49,6 +49,7 @@ let isLoginMode = true;
 
 // Initialization
 document.addEventListener('DOMContentLoaded', async () => {
+    initTheme();
     updateAuthUI();
     
     // Check if on a page with menu before fetching
@@ -694,3 +695,31 @@ profileForm.addEventListener('submit', async (e) => {
         btn.disabled = false;
     }
 });
+
+// Theme Management
+function initTheme() {
+    const themeToggle = document.getElementById('themeToggle');
+    if (!themeToggle) return;
+
+    const savedTheme = localStorage.getItem('eatsbite_theme');
+    const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+
+    // Determine initial state
+    if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
+        document.documentElement.classList.add('light-mode');
+        themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+    } else {
+        document.documentElement.classList.remove('light-mode');
+        themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+    }
+
+    themeToggle.addEventListener('click', () => {
+        const isLight = document.documentElement.classList.toggle('light-mode');
+        localStorage.setItem('eatsbite_theme', isLight ? 'light' : 'dark');
+        themeToggle.innerHTML = isLight ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+        
+        // If we have a map, we might need to invalidate size
+        if (typeof map !== 'undefined' && map) setTimeout(() => map.invalidateSize(), 400);
+    });
+}
+
