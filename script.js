@@ -89,22 +89,24 @@ function showToast(message) {
 async function fetchMenu() {
     try {
         const response = await fetch(`${API_BASE}/menu`);
-        if (!response.ok) throw new Error('Backend error');
+        if (!response.ok) throw new Error(`Backend error: ${response.status}`);
         menuData = await response.json();
+        renderMenu();
     } catch (error) {
         console.error('Failed to fetch menu:', error);
         const container = document.getElementById('menuContainer');
         if (container) {
             container.innerHTML = `
-                <div style="grid-column: 1/-1; text-align: center; padding: 40px; background: rgba(255,0,0,0.05); border-radius: 20px; border: 1px solid rgba(255,0,0,0.2);">
-                    <p style="color:#ff6b6b; font-size: 1.1rem; margin-bottom: 10px;">Failed to load premium menu. Please check your connection.</p>
-                    <small style="color: var(--text-muted);">Error: ${error.message}</small>
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px; background: rgba(255,107,0,0.05); border-radius: 20px; border: 1px solid var(--accent);">
+                    <p style="color:var(--accent); font-size: 1.1rem; margin-bottom: 10px;">The Chef is preparing the database... 👨‍🍳</p>
+                    <small style="color: var(--text-muted);">This usually happens when the MongoDB Atlas IP Whitelist needs to be configured.</small>
+                    <br><br>
+                    <small style="color: #ff4d4f;">Debug Info: ${error.message}</small>
                 </div>
             `;
         }
     } finally {
-        renderMenu();
-        renderFoodBackground(); // 🍔 show animations even if menu fetch failed (with fallbacks)
+        renderFoodBackground(); // 🍔 show animations even if menu fetch failed
     }
 }
 
