@@ -1,6 +1,6 @@
 // 🔧 UPDATE THIS to your deployed backend URL after deploying the backend on Vercel/Render
 // Example: const API_BASE = 'https://eatsbite-backend.vercel.app/api';
-const API_BASE = 'http://localhost:3000/api'; // ← local development URL
+const API_BASE = 'https://eats-bite-backend.vercel.app/api'; // ← deployed backend URL
 
 // State Management
 let cart = [];
